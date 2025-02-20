@@ -9,17 +9,21 @@ generateReportBtn.addEventListener('click', fetchStockData)
 document.getElementById('ticker-input-form').addEventListener('submit', (e) => {
     e.preventDefault()
     const tickerInput = document.getElementById('ticker-input')
-    console.log("hello" + tickerInput.value)
-    if (tickerInput.value.length > 2) {
-        generateReportBtn.disabled = false
-        const newTickerStr = tickerInput.value
-        tickersArr.push(newTickerStr.toUpperCase())
-        tickerInput.value = ''
-        renderTickers()
-    } else {
+    const ticker = tickerInput.value.toUpperCase()
+    if (ticker.length <= 2) {
         const label = document.getElementsByTagName('label')[0]
         label.style.color = 'red'
         label.textContent = 'You must add at least one ticker. A ticker is a 3 letter or more code for a stock. E.g TSLA for Tesla.'
+    } else if (tickersArr.includes(ticker)) {
+        const label = document.getElementsByTagName('label')[0]
+        label.style.color = 'red'
+        label.textContent = 'You have already added this ticker'
+    } else {
+        generateReportBtn.disabled = false
+        const newTickerStr = ticker
+        tickersArr.push(newTickerStr)
+        tickerInput.value = ''
+        renderTickers()
     }
 })
 
